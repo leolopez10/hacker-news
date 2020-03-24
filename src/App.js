@@ -16,7 +16,7 @@ function App() {
 
   useEffect(() => {
     fetchNews()
-  })
+  }, [searchQuery])
 
   const handleChange = (event) => {
     setSearchQuery(event.target.value)
