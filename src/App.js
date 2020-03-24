@@ -2,16 +2,18 @@ import React, { Component, useState, useEffect } from 'react';
 
 function App() {
   // state
-  const [news, setNews] = useState([])
-  const [searchQuery, setSearchQuery] = useState('react')
-  const [url, setUrl] = useState('http://hn.algolia.com/api/v1/search?query=react')
+  const [news, setNews] = useState([]);
+  const [searchQuery, setSearchQuery] = useState('react');
+  const [url, setUrl] = useState('http://hn.algolia.com/api/v1/search?query=react');
+  const [loading, setLoading] = useState(false);
 
   //fetch news
   const fetchNews = () => {
+    setLoading(true)
     fetch(url)
       .then(result => result.json())
       // .then(data => console.log(data.hits))
-      .then(data => setNews(data.hits))
+      .then(data => (setNews(data.hits), setLoading(false)))
       .catch(error => console.log(error));
   };
 
@@ -36,6 +38,7 @@ function App() {
         <input type='text' value={searchQuery} onChange={handleChange} />
         <button>SEARCH</button>
       </form>
+      {loading ? <h2>LOADING...</h2> : ""}
       {news.map((news, index) => (
         <p key={index}>{news.title}</p>
       ))}
